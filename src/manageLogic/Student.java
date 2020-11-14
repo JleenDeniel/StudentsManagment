@@ -1,18 +1,19 @@
 package manageLogic;
 
 public class Student {
-    private Integer id;
+    private String id;
     private String name;
     private String surname;
     private String fathersName;
     private String birthday;
     private String group;
 
-    public Student(Integer id, String name, String surname, String fathersName, String group){
+    public Student(String id, String name, String surname, String fathersName, String birthday ,String group){
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.fathersName = fathersName;
+        this.birthday = birthday;
         this.group = group;
     }
 
@@ -54,5 +55,13 @@ public class Student {
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -29,17 +29,17 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="searchStudent" layoutX="14.0" layoutY="293.0" mnemonicParsing="false" onAction="#pressSearchStudentButton" prefHeight="38.0" prefWidth="236.0" text="Поиск студентов" />
-      <Button fx:id="deleteStudent" layoutX="14.0" layoutY="341.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="236.0" text="Удаление студента" />
-      <Button fx:id="addStudent" layoutX="14.0" layoutY="390.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="236.0" text="Добавить студента" />
+      <Button fx:id="searchStudent" layoutX="14.0" layoutY="293.0" mnemonicParsing="false"  prefHeight="38.0" prefWidth="236.0" text="Поиск студентов" />
+      <Button fx:id="deleteStudent" layoutX="14.0" layoutY="341.0" mnemonicParsing="false" onAction="#deleteStudentButton" prefHeight="38.0" prefWidth="236.0" text="Удаление студента" />
+      <Button fx:id="addStudent" layoutX="14.0" layoutY="390.0" mnemonicParsing="false" onAction="#pressAddStudentButton" prefHeight="38.0" prefWidth="236.0" text="Добавить студента" />
       <TableView fx:id="studentsTableView" layoutX="301.0" layoutY="47.0" prefHeight="651.0" prefWidth="959.0">
         <columns>
-          <TableColumn fx:id="col_id_student" editable="false" prefWidth="75.0" text="id_student" />
-          <TableColumn fx:id="col_name_student" prefWidth="194.0" text="name_student" />
-            <TableColumn fx:id="col_surname_student" prefWidth="210.0" text="surname_student" />
-            <TableColumn fx:id="col_fathersName_student" prefWidth="179.0" text="fathersName_student" />
-            <TableColumn fx:id="col_birthdate_student" prefWidth="163.0" text="birthdate_student" />
-            <TableColumn fx:id="col_group_student" prefWidth="137.0" text="group_student" />
+          <TableColumn fx:id="col_id_student" editable="false" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="col_name_student" prefWidth="194.0" text="Имя" />
+            <TableColumn fx:id="col_surname_student" prefWidth="210.0" text="Фамилия" />
+            <TableColumn fx:id="col_fathersName_student" prefWidth="179.0" text="Отчество" />
+            <TableColumn fx:id="col_birthdate_student" prefWidth="163.0" text="Дата рождения" />
+            <TableColumn fx:id="col_group_student" prefWidth="137.0" text="Группа" />
         </columns>
       </TableView>
    </children>
