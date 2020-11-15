@@ -1,5 +1,7 @@
 package manageLogic;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class Student {
     private String id;
     private String name;
@@ -64,4 +66,6 @@ public class Student {
     public void setId(String id) {
         this.id = id;
     }
+
+
 }

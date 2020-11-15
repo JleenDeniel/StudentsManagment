@@ -6,7 +6,7 @@ public class ConnectionClass implements AutoCloseable {
     private String url = "jdbc:mysql://localhost/students?serverTimezone=Europe/Moscow&useSSL=false";
     private String user = "root";
     private String password = System.getenv("dbPassword");
-    public Connection connection;
+    private Connection connection;
 
     public ConnectionClass() throws SQLException {
         this.connection = DriverManager.getConnection(url, user, password);
@@ -23,8 +23,8 @@ public class ConnectionClass implements AutoCloseable {
     }
 
 
-    public PreparedStatement statement(String sql) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(sql);
+    public PreparedStatement preparedStatement(String sql) throws SQLException {
+        var statement = connection.prepareStatement(sql);
         return statement;
     }
 

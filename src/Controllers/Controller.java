@@ -1,8 +1,6 @@
 package Controllers;
 
-import com.sun.glass.ui.EventLoop;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -11,20 +9,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+
 import javafx.stage.Stage;
 import connectivity.ConnectionClass;
 import manageLogic.Student;
 
 import java.net.URL;
-import java.sql.*;
-import java.sql.CallableStatement;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+
 public class Controller implements Initializable {
 
-    public Button searchStudent;
     public Button deleteStudent;
     public Button addStudent;
     public TableView<Student> studentsTableView;
@@ -32,13 +28,11 @@ public class Controller implements Initializable {
     public TableColumn<Student, String> col_name_student;
     public TableColumn<Student, String> col_surname_student;
     public TableColumn<Student, String> col_fathersName_student;
-    public TableColumn<Student, String> col_birthdate_student;
+    public TableColumn<Student, String> col_birthday_student;
     public TableColumn<Student, String> col_group_student;
 
-    ObservableList<Student> oblist = FXCollections.observableArrayList();
-
     public void pressAddStudentButton(ActionEvent actionEvent) {
-//        TextField inputId = new TextField();
+
         TextField inputName = new TextField();
         TextField inputSurname = new TextField();
         TextField inputFathersname = new TextField();
@@ -46,21 +40,21 @@ public class Controller implements Initializable {
         TextField inputGroup = new TextField();
         GridPane pane = new GridPane();
 
-//        Label id = new Label("ID");
+
         Label name = new Label("Имя");
         Label surname = new Label("Фамилия");
         Label fathername = new Label("Отчество");
-        Label birtday = new Label("Дата рождения");
+        Label birthday = new Label("Дата рождения");
         Label group = new Label("Группа");
         Label success = new Label();
-//        pane.add(id, 0,0);
+
         pane.add(name, 1, 0);
         pane.add(surname, 2, 0);
         pane.add(fathername, 3, 0);
-        pane.add(birtday, 4, 0);
+        pane.add(birthday, 4, 0);
         pane.add(group, 5, 0);
         pane.add(success, 6, 0);
-//        pane.add(inputId, 0,1);
+
         pane.add(inputName, 1, 1);
         pane.add(inputSurname, 2 ,1);
         pane.add(inputFathersname, 3, 1);
@@ -72,17 +66,17 @@ public class Controller implements Initializable {
         Stage startStage = new Stage();
         startStage.setScene(scene);
         startStage.show();
+
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
 
                 try(ConnectionClass connection = new ConnectionClass()){
                     Node node = (Node) actionEvent.getSource();
                     Stage stage = (Stage) node.getScene().getWindow();
 
                     String sql = "{call add_student(?, ?, ?, ?, ?)}";
-                    var statement = connection.connection.prepareStatement(sql);
+                    var statement = connection.preparedStatement(sql);
                     statement.setString(1, inputName.getText());
                     statement.setString(2, inputSurname.getText());
                     statement.setString(3, inputFathersname.getText());
@@ -96,6 +90,8 @@ public class Controller implements Initializable {
                     stage.close();
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setContentText("Успешно добавлен");
+                    studentsTableView.getItems().clear();
+                    updateTable();
 
                 }catch (SQLException ex){
                     Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -107,14 +103,12 @@ public class Controller implements Initializable {
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
+    public void updateTable(){
         col_id_student.setCellValueFactory(new PropertyValueFactory<>("id"));
         col_name_student.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_surname_student.setCellValueFactory(new PropertyValueFactory<>("surname"));
         col_fathersName_student.setCellValueFactory(new PropertyValueFactory<>("fathersName"));
-        col_birthdate_student.setCellValueFactory(new PropertyValueFactory<>("birthday"));
+        col_birthday_student.setCellValueFactory(new PropertyValueFactory<>("birthday"));
         col_group_student.setCellValueFactory(new PropertyValueFactory<>("group"));
 
 
@@ -126,33 +120,39 @@ public class Controller implements Initializable {
                         res.getString(4), res.getString(5), res.getString(6));
                 studentsTableView.getItems().add(student);
             }
-
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText(ex.getSQLState());
         }
-
     }
 
-    //todo обновлять таблицу (особенно если в таблице есть человек, которого только что удалили)
-    public void deleteStudentButton(ActionEvent actionEvent) throws SQLException {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        updateTable();
+    }
+
+
+    public void deleteStudentButton(ActionEvent actionEvent) {
+
         TextInputDialog inputDialog = new TextInputDialog();
         inputDialog.setHeaderText("Введите номер студента:");
-        var id = inputDialog.showAndWait();
-        //String id = inputDialog.get();
-        String sql = "{DELETE FROM students WHERE id_student = ?}";
+        var id = inputDialog.showAndWait().get();
+
         try(ConnectionClass connection = new ConnectionClass()) {
-            var statement = connection.connection.createStatement();
-            statement.executeUpdate("{Delete from students where id_student =" + id + "}");
+            String sql = "{call delete_student(?)}";
+            var statement = connection.preparedStatement(sql);
+            statement.setString(1, id);
+            statement.execute();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Успешно добавлен");
+            alert.setContentText("Успешно удален");
+            alert.show();
+            studentsTableView.getItems().clear();
+            updateTable();
         }catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText(ex.getSQLState());
+            alert.show();
         }
-
-
-
-
     }
 }
+
