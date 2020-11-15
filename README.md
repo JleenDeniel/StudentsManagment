@@ -2,11 +2,11 @@
 Тестовое задание. Приложение для работы с БД "студенты" с возможностью отображения списка студентов, добавления студента и удаления по уникальному идентификатору
 
 При открытии приложение сразу загружается список студентов:
-![](https://yadi.sk/i/kVco0oirLErylw)
+![alt text(https://yadi.sk/i/kVco0oirLErylw)
 
 Удаление и добавление происходит с помощью диалоговых окон:
-![](https://yadi.sk/i/3ERiEvIP834LGA)
-![](https://yadi.sk/i/8A9k9PQtSR_5Pg)
+![alt text](https://yadi.sk/i/3ERiEvIP834LGA)
+![alt text](https://yadi.sk/i/8A9k9PQtSR_5Pg)
 
  После внесения изменений таблица сразу меняется:
- ![](https://yadi.sk/i/aSUWJBvAROcxwg)
+ ![alt text](https://yadi.sk/i/aSUWJBvAROcxwg)
